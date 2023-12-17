@@ -6,5 +6,5 @@ from . import models
 def book_view(request):
     if request.method == 'GET':
         book = models.Book.object.all()
-        render(request, template_name='books.html',
-               context={'book': book})
+        return render(request, template_name='books.html',
+                    context={'book': book})
