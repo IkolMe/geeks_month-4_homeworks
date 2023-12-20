@@ -1,22 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="stylesheet" href="books.css">
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-    <h1>Все книги</h1>
-    <ul>
-        {% for i in Book %}
-        <li>
-            <h2>{{i.book_name}}</h2>
-            <img src="{{i.book_image.url}}" alt="">
-            <p>{{i.book_description}}</p>
-            <h3>{{i.book_price}}</h3>
-            <p>{{i.author_created_at}}</p>
-
-        </li>
-        {% endfor %}
-    </ul>
+    <div class="container">
+        <div class="box">
+            <h1 class="title">Все книги</h1>
+            <ul>
+                {% for i in Book %}
+                <li>
+                    <div class="info">
+                        <div>
+                            <h1>{{i.book_name}}</h1>
+                            <img src="{{i.book_image.url}} alt="">
+                        </div>
+                        <div>
+                            <p class="description">{{i.book_description}}</p>
+                            <p class="author">b{{i.author_created_at}}</p>
+                        </div>
+                    </div>
+                    <p class="price">{{i.book_price}}</p>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <script src="script.js"></script>
 </body>
 </html>
