@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1>Выберите объект для редактирования</h1>
+    <ul>
+        {% for i in edit_movies_item %}
+        <li>
+            <h2>{{i.name}}</h2>
+            <button>
+                <a href="#">Редактировать</a>
+            </button>
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

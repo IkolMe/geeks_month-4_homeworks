@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: sans-serif;
+            color: #333;
+        }
+
+        .container {
+            padding: 0 100px;
+            background-color: firebrick;
+            height: 100%;
+        }
+
+        .box {
+            padding: 20px 50px;
+            background-color: #fffaf7;
+            height: 100%;
+        }
+
+        .title {
+            font-size: 54px;
+            border-bottom: 4px solid #333333;
+            padding: 0 0 30px 0;
+        }
+
+        .movies_item {
+            list-style: none;
+            margin: 100px 0 0 0;
+        }
+
+        .info {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin: 40px 0 20px 0;
+        }
+
+        .info > div > img {
+            width: 340px;
+            margin: 28px 0 0 0;
+        }
+
+        .info > div:last-child {
+            width: 55%;
+        }
+
+        .genre {
+            margin: 28px 0;
+        }
+
+        .genre > span:first-child {
+            color: #555;
+        }
+
+        .genre > span:last-child {
+            font-size: 26px;
+            font-weight: 700;
+            margin: 28px 0;
+        }
+
+        .description {
+            line-height: 140%;
+        }
+
+        .duration {
+            color: grey;
+            margin: 0 0 38px 0;
+        }
+
+        .trailer, .watch {
+            border-radius: 18px;
+            padding: 10px;
+            text-decoration: none;
+            transition: 1s;
+            border: 1px solid transparent;
+            color: #fff;
+        }
+
+        .trailer:hover, .watch:hover {
+            background-color: #fff;
+            border: 1px solid #333;
+            color: #333;
+        }
+
+        .trailer {
+            background-color: firebrick;
+        }
+
+        .watch {
+            background-color: blue;
+            margin: 0 0 0 34px;
+        }
+
+        .under {
+            background-color: grey;
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        .under > nav > ul > li > a {
+            text-decoration: none;
+            text-align: center;
+            font-size: 17px;
+        }
+
+        .under > nav > ul > li > a:hover {
+            text-decoration: underline;
+        }
+
+        .under > nav > ul > li {
+            margin: 10px 0 0 0;
+            list-style: none;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="box">
+            <h1 class="title">Все фильмы</h1>
+            <ul>
+                {% for i in item %}
+                <li class="movies_item">
+                    <div class="info">
+                        <div>
+                            <h1>{{i.name}}</h1>
+                            <img src="{{i.image.url}}" alt="">
+                        </div>
+                        <div>
+                            <p class="description">{{i.description}}</p>
+                            <p class="genre">
+                                <span>Жанр: </span>
+                                <span>{{i.genre}}</span>
+                            </p>
+                            <p class="duration">{{i.duration}} минуты</p>
+                            <a href="{{i.trailer}}" target="_blank" class="trailer">Смотреть трейлер</a>
+                            <a href="{{i.watch}}" target="_blank" class="watch">Смотреть фильм</a>
+                        </div>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="under">
+            <nav>
+                <ul>
+                    <li><a href="/admin/" target="_blank">Перейти в админку</a></li>
+                    <li><a href="/create_movies_item/" target="_blank">Добавить фильм</a></li>
+                    <li><a href="/delete_movies_item/" target="_blank">Удалить</a></li>
+                    <li><a href="/edit_movies_item/" target="_blank">Редактировать</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</body>
+</html>

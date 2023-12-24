@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<h1>Выберите объект для редактирования</h1>
+<form method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+  {{form.as_p}}
+    <button type="submit"><a href="/edit_movies_item/{{i.idj}}/update/">Редактировать</a></button>
+</form>
+
+</body>
+</html>
