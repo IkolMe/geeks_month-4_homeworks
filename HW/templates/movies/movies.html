@@ -125,8 +125,12 @@
     <div class="container">
         <div class="box">
             <h1 class="title">Все фильмы</h1>
+            <form action="{% url 'movies:search'%}" method="GET" role="search">
+                <input type="search" type="text" name="q" placeholder="Найти интересующий фильм">
+                <button type="submit">Поиск</button>
+            </form>
             <ul>
-                {% for i in item %}
+                {% for i in object_list %}
                 <li class="movies_item">
                     <div class="info">
                         <div>

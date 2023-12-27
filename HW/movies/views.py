@@ -1,60 +1,66 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from . import models, forms
 from django.urls import reverse
-from django.http import HttpResponse
+from django.views import generic
 
 
 # READ
-def item_view(request):
-    if request.method == 'GET':
-        item = models.Item.objects.all()
-        return render(request, template_name='movies/movies.html', context={'item': item})
+class ItemsView(generic.ListView):
+    template_name = 'movies/movies.html'
+    model = models.Item
+
+    def get_queryset(self):
+        return self.model.objects.all()
 
 
 # CREATE
-def create_movies_item_view(request):
-    if request.method == 'POST':
-        form = forms.MovieForm(request.POST, request.FILES)
-        if form.is_valid:
-            form.save()
-            return redirect(reverse('movies'))
-    else:
-        form = forms.MovieForm()
-        return render(request, template_name='crud/create_movies_item.html', context={'form': form})
+class CreateView(generic.CreateView):
+    template_name = 'crud/create_movies_item.html'
+    model = models.Item
+    form_class = forms.MovieForm
+
+    success_url = '/'
+
+    def form_valid(self, form):
+        print(form.cleaned_data)
+        return super(CreateView, self).form_valid(form=form)
 
 
 # DELETE
-def delete_movies_item_view(request):
-    if request.method == 'GET':
-        delete_movies_item = models.Item.objects.all()
-        return render(request, template_name='crud/delete/delete_movies_item.html', context={'delete_movies_item': delete_movies_item})
+class DeleteView(generic.DeleteViewView):
+    template_name = 'crud/delete/delete_movies_item.html'
+    model = models.Item
+    success_url = 'delete_movies_item'
 
-
-def movies_item_drop_view(request, id):
-    movies_item_id = get_object_or_404(models.Item, id=id)
-    movies_item_id.delete()
-    return redirect(reverse('delete_movies_item'))
+    def get_object(self, **kwargs):
+        movie_id = self.kwargs.get('id')
+        return get_object_or_404(models.Item, id=movie_id)
 
 
 # UPDATE
-def edit_movies_item_view(request):
-    if request.method == 'GET':
-        edit_movies_item = models.Item.objects.all()
-        return render(request, template_name='crud/edit/edit_movies_item.html', context={'edit_movies_item': edit_movies_item})
+class UpdateView(generic.UpdateView):
+    template_name = 'crud/update/update_movies_item.html'
+    model = models.Item
+    success_url = 'edit_movies_item'
+
+    def get_object(self, **kwargs):
+        movie_id = self.kwargs.get('id')
+        return get_object_or_404(models.Item, id=movie_id)
+
+    def form_valid(self, form):
+        print(form.cleaned_data)
+        return super(UpdateView, self).form_valid(form=form)
 
 
-def edit_movies_item(request, id):
-    movies_item_id = get_object_or_404(models.Item, id=id)
-    if request.method == 'POST':
-        form = forms.MovieForm(instance=movies_item_id, data=request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect(reverse('edit_movies_item'))
+class SearchView(generic.ListView):
+    template_name = 'movies/movies.html'
+    paginate_by = 10
 
-    else:
-        form = forms.MovieForm(instance=movies_item_id)
-        return render(request, template_name='crud/update/movies_item_edit.html', context={
-            'form': form,
-            'movies_item_id': movies_item_id
-        })
+    def get_queryset(self):
+        return models.Movie.objects.filter(name__icontains=self.request.GET.get('q'))
+
+    def get_context_data(self, **kwargs):
+        context = super(SearchView, self).get_context_data(**kwargs)
+        context['q'] = self.request.GET.get('q')
+        return context
 
